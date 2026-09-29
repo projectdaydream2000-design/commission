@@ -70,6 +70,9 @@ h2{font-family:var(--f-head);font-weight:700;font-size:30px;text-align:center;ma
 .work .ph iframe,.work .ph video{width:100%;height:100%;border:0;background:#1e1912;display:block}
 .work .ph .play{position:absolute;inset:0;width:100%;height:100%;border:0;background:#2E271C center/cover no-repeat;cursor:pointer}
 .work .ph .play span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;background:rgba(122,92,40,.92);color:#FFFDF8;font-size:22px;line-height:58px;text-align:center}
+.work.feat{grid-column:1/-1}
+.work.feat .ph{aspect-ratio:16/8}
+.work.feat h3{font-size:24px}
 .work .cap{font-size:13px;color:var(--muted);padding:8px 18px 0;min-height:28px}
 .work details.more{font-size:14px;border-top:1px dashed var(--gold-line);padding-top:6px}
 .work details.more summary{cursor:pointer;color:var(--gold);font-weight:600}
@@ -416,7 +419,8 @@ const el=(t,p={},...c)=>{const e=document.createElement(t);for(const[k,v]of Obje
 if(CONFIG.slots.length){const s=$('#slots');s.hidden=false;for(const x of CONFIG.slots)s.append(el('div',{class:'slot'},el('small',{},x.month+' 슬롯'),el('b',{},x.status)))}
 
 /* 포트폴리오 */
-const cats=['전체',...new Set(WORKS.map(w=>w.cat))];
+const inCat=(w,c)=>(w.cats||[w.cat]).includes(c);const isFeat=(w,c)=>(w.feature||[]).includes(c);
+const cats=['전체',...new Set(WORKS.flatMap(w=>w.cats||[w.cat]))];
 let showAll=false,curCat='전체';
 const TH=m=>m.t==='img'?m.s:m.t==='yt'?'https://i.ytimg.com/vi/'+m.s+'/hqdefault.jpg':m.t==='gd'?'https://drive.google.com/thumbnail?id='+m.s+'&sz=w800':m.t==='mp4'?m.p:'';
 const SRC=m=>m.t==='yt'?'https://www.youtube-nocookie.com/embed/'+m.s+'?autoplay=1':m.t==='gd'?'https://drive.google.com/file/d/'+m.s+'/preview':'https://vod.sooplive.com/player/'+m.s+'/catch';
@@ -428,7 +432,7 @@ function stage(w,m){
 }
 function renderWorks(cat){
   curCat=cat;const g=$('#grid');g.replaceChildren();
-  const list=WORKS.filter(w=>cat==='전체'||w.cat===cat);
+  const list=WORKS.filter(w=>cat==='전체'||inCat(w,cat)).sort((a,b)=>isFeat(b,cat)-isFeat(a,cat));
   $('#more').hidden=list.length<=6;$('#more').textContent=showAll?'접기':'작업물 더 보기 ('+list.length+')';$('#more').setAttribute('aria-expanded',String(showAll));
   for(const w of (showAll?list:list.slice(0,6))){
     const M=w.media;let i=0;let art;
@@ -446,7 +450,7 @@ function renderWorks(cat){
     if(w.links)body.append(el('div',{class:'links'},...w.links.map(([t,u])=>el('a',{href:u,target:'_blank',rel:'noopener'},t+' ↗'))));
     body.append(el('button',{class:'open',type:'button',onclick:()=>openDetail(w,i,art)},'자세히 보기 · 크게 보기'));
     body.querySelector('h3').addEventListener('click',()=>openDetail(w,i,art));
-    art=el('article',{class:'card work'},box,cap,body);g.append(art);
+    art=el('article',{class:'card work'+(isFeat(w,cat)?' feat':'')},box,cap,body);g.append(art);
   }
 }
 for(const c of cats){$('#tabs').append(el('button',{class:'tab',role:'tab','aria-selected':String(c==='전체'),onclick:e=>{document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected','false'));e.currentTarget.setAttribute('aria-selected','true');renderWorks(c)}},c))}
