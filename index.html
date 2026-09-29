@@ -447,7 +447,7 @@ function renderWorks(cat){
     const body=el('div',{class:'body'},el('span',{class:'tag'},w.cat+(nv?' · 영상 '+nv:'')),el('h3',{},w.title));
     if(w.desc)body.append(el('p',{},w.desc));
     if(w.did)body.append(el('div',{class:'did'},'작업 범위 · '+w.did));
-    if(w.detail)body.append(el('details',{class:'more'},el('summary',{},'인물별 설명'),...w.detail.map(([n,t])=>el('p',{},el('b',{},n),t?' — '+t:''))));
+    if(w.detail)body.append(el('details',{class:'more'},el('summary',{},'인물별 설명'),...w.detail.map(([n,t])=>n?el('p',{},el('b',{},n),t?' — '+t:''):el('p',{},t))));
     if(w.links)body.append(el('div',{class:'links'},...w.links.map(([t,u])=>el('a',{href:u,target:'_blank',rel:'noopener'},t+' ↗'))));
     body.append(el('button',{class:'open',type:'button',onclick:()=>openDetail(w,i,art)},'자세히 보기 · 크게 보기'));
     body.querySelector('h3').addEventListener('click',()=>openDetail(w,i,art));
@@ -475,7 +475,7 @@ function openDetail(w,start,anchor){
   const body=el('div',{class:'dbody'},el('span',{class:'tag'},w.cat),el('h3',{},w.title));
   if(w.desc)body.append(el('p',{},w.desc));
   if(w.did)body.append(el('div',{class:'did'},'작업 범위 · '+w.did));
-  if(w.detail)body.append(el('div',{class:'dd'},...w.detail.map(([n,t])=>el('p',{},el('b',{},n),t?' — '+t:''))));
+  if(w.detail)body.append(el('div',{class:'dd'},...w.detail.map(([n,t])=>n?el('p',{},el('b',{},n),t?' — '+t:''):el('p',{},t))));
   if(w.links)body.append(el('div',{class:'links'},...w.links.map(([t,u])=>el('a',{href:u,target:'_blank',rel:'noopener'},t+' ↗'))));
   D.replaceChildren(el('button',{class:'dclose','aria-label':'닫기',onclick:closeDetail},'✕'),media,bar,...(M.length>1?[thumbs]:[]),body);show();
   // iframe 안에서는 fixed 가 iframe 전체 높이 기준이라 화면 밖에 뜬다 → 누른 카드의 문서 위치에 띄운다
