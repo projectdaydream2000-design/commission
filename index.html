@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>테라가타 · 3D 아바타 · 의상 커미션</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── 색·폰트 토큰: 기존 상점의 베이지·금색 계열 (대비 검사: tools/ui/contrast_check.py) ── */
+:root{
+  --bg:#F6F1E7;        /* 베이지 배경 */
+  --card:#FFFDF8;      /* 카드 */
+  --soft:#EFE6D4;      /* 연베이지 판 */
+  --ink:#2E271C;       /* 본문 13.1:1 */
+  --muted:#6B5B40;     /* 보조글 5.8:1 */
+  --gold:#806129;      /* 금색 글자 (작은 글씨도 4.5:1 이상) */
+  --gold-deep:#7A5C28; /* 버튼 바탕 6.1:1 */
+  --gold-line:#D9CBAE; /* 장식 구분선 */
+  --field:#A99060;     /* 입력칸 테두리 3:1 */
+  --shadow:0 10px 30px rgba(46,39,28,.08);
+  --r:18px;
+  --f-head:'Gowun Batang', serif;
+  --f-body:'IBM Plex Sans KR', system-ui, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:var(--gold);}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+section{padding:64px 0;border-top:1px solid var(--gold-line)}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.18em;color:var(--gold);text-align:center}
+h2{font-family:var(--f-head);font-weight:700;font-size:30px;text-align:center;margin:6px 0 10px}
+.lead{text-align:center;color:var(--muted);font-size:15px;margin-bottom:32px}
+.card{background:var(--card);border:1px solid var(--gold-line);border-radius:var(--r);box-shadow:var(--shadow)}
+:focus-visible{outline:3px solid var(--gold-deep);outline-offset:2px}
+
+/* 히어로 */
+.hero{padding:72px 0 56px;text-align:center;border-top:0}
+.hero .mark{font-family:var(--f-head);font-size:15px;letter-spacing:.3em;color:var(--gold)}
+.hero h1{font-family:var(--f-head);font-weight:700;font-size:44px;line-height:1.3;margin:10px 0 14px}
+.hero p{color:var(--muted);max-width:520px;margin:0 auto}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:28px 0 0}
+.chip{background:var(--card);border:1px solid var(--gold-line);border-radius:999px;padding:6px 16px;font-size:14px;color:var(--muted)}
+.chip b{color:var(--ink)}
+.slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;max-width:560px;margin:26px auto 0}
+.slot{background:var(--card);border:1px solid var(--gold-line);border-radius:14px;padding:12px 8px}
+.slot small{display:block;color:var(--muted);font-size:13px}
+.slot b{font-family:var(--f-head);font-size:18px;color:var(--gold)}
+.nav{position:sticky;top:0;z-index:20;background:rgba(246,241,231,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--gold-line)}
+.nav ul{list-style:none;display:flex;justify-content:center;gap:6px;flex-wrap:wrap;padding:10px 12px}
+.nav a{display:block;padding:6px 14px;border-radius:999px;text-decoration:none;color:var(--ink);font-size:14px;font-weight:500}
+.nav a:hover{background:var(--soft)}
+
+/* 포트폴리오 */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:26px}
+.tab{border:1px solid var(--gold-line);background:var(--soft);color:#5A4A30;border-radius:999px;padding:7px 18px;font-size:14px}
+.tab[aria-selected="true"]{background:var(--gold-deep);border-color:var(--gold-deep);color:var(--card);font-weight:700}
+.works{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.work{overflow:hidden;display:flex;flex-direction:column}
+.work .ph{position:relative;aspect-ratio:16/11;background:#E9E0CC;overflow:hidden}
+.work .ph img{width:100%;height:100%;object-fit:cover;transition:opacity .25s}
+.work .ph .ctl{position:absolute;inset:auto 8px 8px auto;display:flex;gap:6px}
+.work .ph .ctl button{width:34px;height:34px;border-radius:50%;border:1px solid var(--gold-line);background:rgba(255,253,248,.92);color:var(--ink);font-size:16px;line-height:1}
+.work .ph .count{position:absolute;left:10px;bottom:10px;background:rgba(46,39,28,.72);color:#FFFDF8;font-size:12px;border-radius:999px;padding:2px 10px}
+.work .ph iframe,.work .ph video{width:100%;height:100%;border:0;background:#1e1912;display:block}
+.work .ph .play{position:absolute;inset:0;width:100%;height:100%;border:0;background:#2E271C center/cover no-repeat;cursor:pointer}
+.work .ph .play span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;background:rgba(122,92,40,.92);color:#FFFDF8;font-size:22px;line-height:58px;text-align:center}
+.work .cap{font-size:13px;color:var(--muted);padding:8px 18px 0;min-height:28px}
+.work details.more{font-size:14px;border-top:1px dashed var(--gold-line);padding-top:6px}
+.work details.more summary{cursor:pointer;color:var(--gold);font-weight:600}
+.work details.more p{margin-top:6px;color:var(--ink)}
+.work .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.work h3{font-family:var(--f-head);font-size:19px;line-height:1.4}
+.work .tag{font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.06em}
+.work p{font-size:14px;color:var(--muted)}
+.work .did{font-size:13px;color:var(--ink);background:var(--soft);border-radius:10px;padding:8px 10px}
+.work .links{display:flex;flex-wrap:wrap;gap:10px;font-size:14px;margin-top:auto;padding-top:4px}
+.videos{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;margin-top:26px}
+.yt{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid var(--gold-line);background:#2E271C}
+.yt button{position:absolute;inset:0;border:0;background:center/cover no-repeat;color:#FFFDF8}
+.yt button span{position:absolute;left:10px;bottom:8px;background:rgba(46,39,28,.78);border-radius:999px;padding:2px 10px;font-size:13px}
+.yt button::after{content:"▶";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;background:rgba(122,92,40,.92);display:grid;place-items:center;font-size:20px;line-height:54px;text-align:center}
+.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.lightbox{position:fixed;inset:0;background:rgba(30,25,18,.9);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.lightbox.on{display:flex}
+.lightbox img{max-height:88vh;border-radius:10px}
+.lightbox button{position:absolute;top:14px;right:16px;width:42px;height:42px;border-radius:50%;border:0;background:#FFFDF8;font-size:20px}
+
+/* 상품·가격 */
+.prices{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media (max-width:640px){.prices{grid-template-columns:1fr}}
+.price{padding:22px 22px 20px}
+.price .grp{font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.08em}
+.price h3{font-family:var(--f-head);font-size:21px;margin:4px 0 8px}
+.price ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.price li{display:flex;justify-content:space-between;gap:14px;border-top:1px dashed var(--gold-line);padding-top:10px;font-size:15px}
+.price li span:last-child{font-weight:700;color:var(--gold);white-space:nowrap}
+.price .best{display:inline-block;margin-left:6px;font-size:12px;background:var(--gold-deep);color:var(--card);border-radius:999px;padding:1px 9px;vertical-align:2px}
+.pnote{margin-top:12px;font-size:13px;color:var(--muted)}
+.note{margin-top:16px;text-align:center;color:var(--muted);font-size:14px}
+
+/* 작업 순서 */
+.steps{list-style:none;display:grid;grid-template-columns:repeat(6,1fr);gap:8px;counter-reset:s;position:relative}
+.steps li{text-align:center;font-size:14px;counter-increment:s;position:relative}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:44px;height:44px;margin:0 auto 8px;border-radius:50%;background:var(--card);border:2px solid var(--gold);font-family:var(--f-head);font-weight:700;color:var(--gold)}
+.steps li:not(:last-child)::after{content:"";position:absolute;top:22px;left:calc(50% + 26px);right:calc(-50% + 26px);height:2px;background:var(--gold-line)}
+.steps small{display:block;color:var(--muted);font-size:12px}
+
+/* 안내 아코디언 */
+.acc{padding:10px 22px}
+.acc details{border-bottom:1px solid var(--gold-line)}
+.acc details:last-child{border-bottom:0}
+.acc summary{list-style:none;cursor:pointer;padding:16px 0;font-weight:600;display:flex;justify-content:space-between;gap:10px}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"+";color:var(--gold);font-size:20px;line-height:1}
+.acc details[open] summary::after{content:"−"}
+.acc .in{padding:0 0 18px;font-size:15px;color:var(--ink)}
+.acc .in ul{padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.acc .in li::marker{color:var(--gold)}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.tools div{background:var(--soft);border-radius:12px;padding:10px 12px;font-size:14px}
+.tools b{display:block;font-size:15px}
+
+/* 견적 */
+.quote{display:grid;grid-template-columns:1.25fr 1fr;gap:18px;align-items:start}
+.qform{padding:24px}
+.qform h3,.qsum h3{font-family:var(--f-head);font-size:20px;margin-bottom:12px}
+.agree{display:flex;gap:10px;align-items:flex-start;background:var(--soft);border-radius:12px;padding:12px 14px;font-size:14px;margin-bottom:18px}
+.agree input{width:20px;height:20px;margin-top:3px;accent-color:var(--gold-deep)}
+fieldset{border:0;margin:0 0 18px}
+legend{font-weight:700;font-size:15px;margin-bottom:8px}
+legend small{font-weight:400;color:var(--muted)}
+.opt{display:flex;align-items:center;gap:10px;border:1px solid var(--field);border-radius:12px;padding:10px 12px;margin-bottom:8px;font-size:14px;background:var(--card)}
+.opt input[type=radio]{width:18px;height:18px;accent-color:var(--gold-deep)}
+.opt .t{flex:1}
+.opt .p{font-weight:700;color:var(--gold);white-space:nowrap}
+.stepper{display:flex;align-items:center;gap:4px}
+.stepper button{width:30px;height:30px;border-radius:8px;border:1px solid var(--field);background:var(--soft);color:var(--ink)}
+.stepper output{min-width:24px;text-align:center;font-weight:700}
+label.f{display:block;font-size:14px;font-weight:600;margin:10px 0 4px}
+.qform input[type=text],.qform textarea{width:100%;border:1px solid var(--field);border-radius:10px;padding:9px 11px;font:inherit;font-size:14px;background:var(--card);color:var(--ink)}
+.qform textarea{min-height:70px;resize:vertical}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.checks label{display:flex;gap:6px;align-items:center;border:1px solid var(--field);border-radius:999px;padding:5px 12px;font-size:14px;background:var(--card)}
+.checks input{accent-color:var(--gold-deep)}
+.locked{opacity:.45;pointer-events:none}
+.qsum{padding:22px;background:var(--soft);border:1px solid var(--gold-line);border-radius:var(--r);position:sticky;top:64px}
+.qsum ul{list-style:none;font-size:14px;display:flex;flex-direction:column;gap:6px;min-height:40px}
+.qsum li{display:flex;justify-content:space-between;gap:10px}
+.qsum .empty{color:var(--muted)}
+.total{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--gold-line);margin-top:14px;padding-top:12px}
+.total b{font-family:var(--f-head);font-size:28px;color:var(--gold)}
+.qsum .fine{font-size:12px;color:var(--muted);margin-top:8px}
+.copy{width:100%;margin-top:14px;border:0;border-radius:12px;padding:13px;background:var(--gold-deep);color:var(--card);font-weight:700;font-size:15px}
+.copy:disabled{background:#CDBF9F;color:#5A4A30;cursor:not-allowed}
+.toast{font-size:13px;color:var(--gold-deep);text-align:center;min-height:20px;margin-top:6px}
+footer{padding:36px 0 48px;text-align:center;color:var(--muted);font-size:13px;border-top:1px solid var(--gold-line)}
+
+@media (max-width:760px){
+  .hero h1{font-size:34px}
+  h2{font-size:25px}
+  .quote{grid-template-columns:1fr}
+  .qsum{position:static}
+  .steps{grid-template-columns:repeat(3,1fr);row-gap:22px}
+  .steps li:nth-child(3n)::after{display:none}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.work .ph img{transition:none}}
+</style>
+</head>
+<body>
+
+<header class="hero wrap">
+  <div class="mark">TERAGATA</div>
+  <h1>오리지널 아바타 ·<br>의상 제작</h1>
+  <p>VRChat · VRM · VSeeFace · Warudo용 3D 아바타와 의상을 모델링부터 리깅·세팅까지 제작합니다.</p>
+  <div class="chips">
+    <span class="chip"><b>리깅 포함</b> 가격</span>
+    <span class="chip">수정 <b>3회</b></span>
+    <span class="chip">작업 기간 <b>시작일로부터 60일</b></span>
+  </div>
+  <div class="slots" id="slots" hidden></div>
+</header>
+
+<nav class="nav" aria-label="바로가기">
+  <ul>
+    <li><a href="#works">작업물</a></li>
+    <li><a href="#price">상품·가격</a></li>
+    <li><a href="#process">작업 순서</a></li>
+    <li><a href="#notice">안내</a></li>
+    <li><a href="#quote">견적 · 문의</a></li>
+  </ul>
+</nav>
+
+<section id="works">
+  <div class="wrap">
+    <div class="eyebrow">PORTFOLIO</div>
+    <h2>작업물</h2>
+    <p class="lead">사진을 누르면 크게 볼 수 있습니다.</p>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div class="works" id="grid"></div>
+    <div style="text-align:center;margin-top:18px"><button class="tab" id="more" aria-expanded="false">작업물 더 보기</button></div>
+  </div>
+</section>
+
+<section id="price">
+  <div class="wrap">
+    <div class="eyebrow">PRICE</div>
+    <h2>상품 · 가격</h2>
+    <p class="lead">모든 상품은 리깅이 포함된 가격입니다.</p>
+    <div class="prices" id="prices"></div>
+    <p class="note">복잡도에 따라 비용이 상승할 수 있습니다. 최종 금액은 문의 후 견적으로 안내드립니다.</p>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="eyebrow">PROCESS</div>
+    <h2>작업 순서</h2>
+    <p class="lead">문의(견적·일정 확인) → 주문 → 입금 → 작업 → 수령 완료</p>
+    <ol class="steps">
+      <li>문의<small>견적·일정 확인</small></li>
+      <li>주문·입금</li>
+      <li>얼굴·머리카락</li>
+      <li>바디·의상</li>
+      <li>UV·텍스처</li>
+      <li>리깅·세팅<small>수령 완료</small></li>
+    </ol>
+  </div>
+</section>
+
+<section id="notice">
+  <div class="wrap">
+    <div class="eyebrow">NOTICE</div>
+    <h2>안내 및 유의사항</h2>
+    <p class="lead">문의 전에 꼭 확인해 주세요.</p>
+    <div class="card acc">
+      <details open>
+        <summary>사용 프로그램</summary>
+        <div class="in tools">
+          <div><b>블렌더</b>페이셜 제작, 모델링</div>
+          <div><b>3DS MAX</b>모델링, 언랩, 리깅, 블렌드셰이프</div>
+          <div><b>서브스턴스 3D 페인터</b>손맵 및 질감 텍스처링, 앵커</div>
+          <div><b>유니티</b>매지카 클로스2, 파티클 시스템, 셰이더링, 레벨디자인, 라이팅, 스크립트, URP/HDRP 빌드</div>
+          <div><b>VCC</b>피직스 본, 릴툰 셰이더, 눈깜빡임, 시선이동, 입모양 구현, 옷장 기능, VRM·VSF 변환</div>
+          <div><b>포토샵</b>손맵 및 심리스 텍스처링</div>
+        </div>
+      </details>
+      <details>
+        <summary>상품별 포함 범위</summary>
+        <div class="in"><ul>
+          <li><b>아바타 제작(추천)</b> — 얼굴 성형 / 오리지널 의상 / 부스 바디 / 부스 헤어 + VRM · 브챗 세팅 포함</li>
+          <li><b>올인원 제작</b> — 오리지널 헤드 / 오리지널 의상 / 부스 바디 / 부스 헤어 / VRM · VSF · VRC 적용 (페이셜 리깅 포함)</li>
+          <li><b>풀 오리지널 올인원</b> — 오리지널 헤드 / 오리지널 헤어 / 오리지널 의상 / 오리지널 바디 / VRM · VSF · VRC 적용 (페이셜 리깅 포함)</li>
+          <li><b>의상</b> — 간단(상의 + 하의) / 중간(상의 + 하의 + 외투) / 복잡(드레스, 고유 의상 등)</li>
+          <li><b>신발 · 악세사리</b> — 복잡도에 따라 추가금이 발생합니다.</li>
+          <li><b>기믹 제작</b> — 상업 이용 추가금 없음 · 에셋비 별도 · 첫 의뢰 시 아바타 세팅비 30,000원(1회). 범위 가격은 연출 규모에 따라 견적</li>
+          <li><b>AI 영상 제작</b> — 주연 1캐릭터 정본 확인 · 콘티 승인 · 기본 편집 · 수정 2회 · 1080p 업스케일 납품</li>
+        </ul></div>
+      </details>
+      <details>
+        <summary>BOOTH 에셋 사용</summary>
+        <div class="in"><ul>
+          <li>부스 바디·헤어 등 외부 에셋 구매비는 제작비와 별도입니다.</li>
+          <li>에셋마다 이용 약관(방송·상업 이용, 개변, 재배포)이 다르므로 구매 전에 함께 확인해 주세요.</li>
+        </ul></div>
+      </details>
+      <details>
+        <summary>환불 정책</summary>
+        <div class="in">
+          <p><b>위약금</b> — 작업 진행 시작하기 남은 날짜가 7일 미만일 때 의뢰자가 예약을 해지할 경우 결제 대금 10%의 위약금이 발생합니다.</p>
+          <ul style="margin-top:10px">
+            <li><b>전액 환불</b> — 작업이 전혀 진행되지 않았을 때 (작업 시작 일주일 전까지)</li>
+            <li><b>80% 환불</b> — 작업율 0~30%: 작업 날짜가 되었을 때부터 작업 시작 후 얼굴 및 머리카락까지 완성되었을 때</li>
+            <li><b>50% 환불</b> — 작업율 31~50%: 바디 제작에서부터 의상이 거의 완성되었을 때</li>
+            <li><b>30% 환불</b> — 작업 내용이 51% 이상: UV 작업 이후</li>
+            <li><b>환불 불가</b> — 텍스처링 작업 시작부터</li>
+            <li><b>일부 환불</b> — 작업 공정 일부를 하지 않을 때</li>
+          </ul>
+          <p style="margin-top:10px">환불 시 작업 내용물은 변형 작업을 거쳐 상업적으로 이용될 수 있습니다.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section id="quote">
+  <div class="wrap">
+    <div class="eyebrow">INQUIRY</div>
+    <h2>견적 · 문의 양식</h2>
+    <p class="lead">항목을 고르면 예상 금액이 바로 계산됩니다. «양식 복사»를 눌러 아트머그 문의에 붙여 넣어 주세요.</p>
+    <div class="quote">
+      <div class="card qform">
+        <h3>신청 양식</h3>
+        <label class="agree"><input type="checkbox" id="agree"> <span>위 <b>안내 및 유의사항</b>과 환불 정책을 모두 확인했습니다. 체크하시면 항목을 고를 수 있어요.</span></label>
+        <div id="formBody" class="locked">
+          <fieldset>
+            <legend>기본 상품 <small>(하나 선택)</small></legend>
+            <div id="baseOpts"></div>
+          </fieldset>
+          <fieldset>
+            <legend>추가 제작 <small>(개수)</small></legend>
+            <div id="addOpts"></div>
+          </fieldset>
+          <fieldset>
+            <legend>기믹 제작 <small>(개수 · 범위 가격은 최소 금액으로 계산)</small></legend>
+            <div id="gimOpts"></div>
+          </fieldset>
+          <fieldset>
+            <legend>AI 영상 제작 <small>(캐릭터 PV · 소개영상)</small></legend>
+            <div id="vidOpts"></div>
+          </fieldset>
+          <fieldset>
+            <legend>사용 환경</legend>
+            <div class="checks" id="envs"></div>
+          </fieldset>
+          <label class="f" for="nick">닉네임 / 방송 플랫폼</label>
+          <input type="text" id="nick" placeholder="미정이면 미정이라고 적어 주세요">
+          <label class="f" for="ref">참고 이미지 · 캐릭터 설명</label>
+          <textarea id="ref" placeholder="원화, 삼면도, 표정 이미지 등"></textarea>
+          <label class="f" for="rights">원화 저작권 확인</label>
+          <input type="text" id="rights" placeholder="직접 그렸는지 / 3D 사용 허락을 받았는지">
+          <label class="f" for="booth">사용할 BOOTH 바디·헤어·의상</label>
+          <input type="text" id="booth" placeholder="상품명 또는 링크 (미정 가능)">
+          <label class="f" for="date">희망 완성일</label>
+          <input type="text" id="date" placeholder="미정 가능">
+          <label class="f" for="etc">기타 요청사항</label>
+          <textarea id="etc"></textarea>
+        </div>
+      </div>
+      <aside class="qsum" aria-live="polite">
+        <h3>예상 견적</h3>
+        <ul id="sumList"><li class="empty">항목을 먼저 선택해 주세요.</li></ul>
+        <div class="total"><span>합계</span><b id="total">0원</b></div>
+        <p class="fine">복잡도에 따라 비용이 상승할 수 있으며, 외부 에셋 구매비는 별도입니다. 최종 금액은 상담 후 확정됩니다.</p>
+        <button class="copy" id="copy" disabled>양식 복사</button>
+        <div class="toast" id="toast"></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<footer>© 테라가타 · 모든 이미지는 저작권이 있는 이미지입니다. 무단 도용 및 복제를 금합니다.</footer>
+
+<div class="lightbox" id="lb" role="dialog" aria-modal="true" aria-label="사진 크게 보기"><button aria-label="닫기" id="lbClose">✕</button><img id="lbImg" alt=""></div>
+
+<script src="data.js"></script>
+<script>
+/* ── 여기만 고치면 페이지 전체에 반영됩니다 ── */
+const CONFIG = {
+  // 월별 남은 자리. 비워 두면 표시 안 함. 예: [{month:'10월', status:'마감'}, {month:'11월', status:'1자리'}]
+  slots: [],
+  base: [
+    {id:'none',  name:'선택 안 함 (추가 제작만)', price:0},
+    {id:'avatar',name:'아바타 제작 (추천) — 얼굴 성형 / 오리지널 의상 / 부스 바디 / 부스 헤어 + VRM · 브챗 세팅', price:1200000},
+    {id:'aio1',  name:'올인원 — 오리지널 헤드 / 오리지널 의상 / 부스 바디 / 부스 헤어 / VRM · VSF · VRC 적용 (페이셜 리깅 포함)', price:2000000},
+    {id:'aio2',  name:'풀 오리지널 올인원 — 오리지널 헤드 · 헤어 · 의상 · 바디 / VRM · VSF · VRC 적용 (페이셜 리깅 포함)', price:3000000},
+  ],
+  add: [
+    {id:'o1', name:'의상 · 간단 (상의 + 하의)', price:500000},
+    {id:'o2', name:'의상 · 중간 (상의 + 하의 + 외투)', price:700000},
+    {id:'o3', name:'의상 · 복잡 (드레스, 고유 의상 등)', price:1200000},
+    {id:'sh', name:'신발 (복잡도에 따라 추가금)', price:100000},
+    {id:'ac', name:'악세사리 (복잡도에 따라 추가금)', price:50000},
+  ],
+  gimmick: [
+    {id:'g1', name:'기믹 · 단순·전용 에셋 장착', price:10000},
+    {id:'g2', name:'기믹 · 비전용 에셋 장착', price:30000, range:true},
+    {id:'g3', name:'기믹 · AI 오브젝트 온오프 토글', price:15000},
+    {id:'g4', name:'기믹 · AI 오브젝트 동작 토글', price:30000, range:true},
+    {id:'g5', name:'기믹 · 단순 연출(에셋 변형)', price:50000, range:true},
+    {id:'g6', name:'기믹 · 단순 연출(커스텀 제작)', price:70000, range:true},
+    {id:'g7', name:'기믹 · 대규모·정교한 연출', price:100000, range:true},
+    {id:'g8', name:'기믹 · 디테일 연출(풀 커스텀)', price:150000, range:true},
+    {id:'g9', name:'기믹 · AI 브금 추가 토글', price:5000},
+    {id:'gs', name:'아바타 세팅비 (첫 의뢰 1회)', price:30000, max:1},
+  ],
+  video: [
+    {id:'v0', name:'선택 안 함', price:0},
+    {id:'v15',name:'AI 영상 15초', price:170000},
+    {id:'v30',name:'AI 영상 30초', price:310000},
+    {id:'v60',name:'AI 영상 60초', price:610000},
+    {id:'v153',name:'AI 영상 15초 × 3편 묶음', price:430000},
+  ],
+  envs: ['VRChat','VRM','VSeeFace','Warudo','미정'],
+};
+
+
+const won=n=>n.toLocaleString('ko-KR')+'원';
+const $=s=>document.querySelector(s);
+const el=(t,p={},...c)=>{const e=document.createElement(t);for(const[k,v]of Object.entries(p)){if(k==='class')e.className=v;else if(k.startsWith('on'))e.addEventListener(k.slice(2),v);else e.setAttribute(k,v)}for(const x of c)e.append(x);return e};
+
+/* 월별 자리 */
+if(CONFIG.slots.length){const s=$('#slots');s.hidden=false;for(const x of CONFIG.slots)s.append(el('div',{class:'slot'},el('small',{},x.month+' 슬롯'),el('b',{},x.status)))}
+
+/* 포트폴리오 */
+const cats=['전체',...new Set(WORKS.map(w=>w.cat))];
+let showAll=false,curCat='전체';
+const TH=m=>m.t==='img'?m.s:m.t==='yt'?'https://i.ytimg.com/vi/'+m.s+'/hqdefault.jpg':m.t==='gd'?'https://drive.google.com/thumbnail?id='+m.s+'&sz=w800':m.t==='mp4'?m.p:'';
+const SRC=m=>m.t==='yt'?'https://www.youtube-nocookie.com/embed/'+m.s+'?autoplay=1':m.t==='gd'?'https://drive.google.com/file/d/'+m.s+'/preview':'https://vod.sooplive.com/player/'+m.s+'/catch';
+function stage(w,m){
+  if(m.t==='img'){const im=el('img',{src:m.s,alt:w.title+(m.c?' · '+m.c:''),loading:'lazy'});im.addEventListener('click',()=>{$('#lbImg').src=m.s;$('#lbImg').alt=im.alt;$('#lb').classList.add('on');$('#lbClose').focus()});return im}
+  if(m.t==='mp4')return el('video',{src:m.s,poster:m.p,controls:'',preload:'none',playsinline:''});
+  const th=TH(m);const b=el('button',{class:'play','aria-label':(m.c||w.title)+' 영상 재생',style:th?'background-image:url('+th+')':''},el('span',{},'▶'));
+  b.addEventListener('click',()=>b.replaceWith(el('iframe',{src:SRC(m),title:m.c||w.title,allow:'autoplay; encrypted-media; picture-in-picture; fullscreen',allowfullscreen:''})));return b;
+}
+function renderWorks(cat){
+  curCat=cat;const g=$('#grid');g.replaceChildren();
+  const list=WORKS.filter(w=>cat==='전체'||w.cat===cat);
+  $('#more').hidden=list.length<=6;$('#more').textContent=showAll?'접기':'작업물 더 보기 ('+list.length+')';$('#more').setAttribute('aria-expanded',String(showAll));
+  for(const w of (showAll?list:list.slice(0,6))){
+    const M=w.media;let i=0;
+    const box=el('div',{class:'ph'});const count=el('span',{class:'count'});const cap=el('div',{class:'cap'});
+    const show=()=>{const m=M[i];box.replaceChildren(stage(w,m),count);if(M.length>1)box.append(ctl);count.textContent=(m.t==='img'?'':'영상 · ')+(i+1)+' / '+M.length;cap.textContent=m.c||''};
+    const go=d=>{i=(i+d+M.length)%M.length;show()};
+    const ctl=el('div',{class:'ctl'},el('button',{'aria-label':'이전',onclick:()=>go(-1)},'‹'),el('button',{'aria-label':'다음',onclick:()=>go(1)},'›'));
+    show();
+    const nv=M.filter(m=>m.t!=='img').length;
+    const body=el('div',{class:'body'},el('span',{class:'tag'},w.cat+(nv?' · 영상 '+nv:'')),el('h3',{},w.title));
+    if(w.desc)body.append(el('p',{},w.desc));
+    if(w.did)body.append(el('div',{class:'did'},'작업 범위 · '+w.did));
+    if(w.detail)body.append(el('details',{class:'more'},el('summary',{},'자세히 보기'),...w.detail.map(([n,t])=>el('p',{},el('b',{},n),t?' — '+t:''))));
+    if(w.links)body.append(el('div',{class:'links'},...w.links.map(([t,u])=>el('a',{href:u,target:'_blank',rel:'noopener'},t+' ↗'))));
+    g.append(el('article',{class:'card work'},box,cap,body));
+  }
+}
+for(const c of cats){$('#tabs').append(el('button',{class:'tab',role:'tab','aria-selected':String(c==='전체'),onclick:e=>{document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected','false'));e.currentTarget.setAttribute('aria-selected','true');renderWorks(c)}},c))}
+renderWorks('전체');
+$('#more').addEventListener('click',()=>{showAll=!showAll;renderWorks(curCat)});
+$('#lbClose').onclick=()=>$('#lb').classList.remove('on');
+$('#lb').addEventListener('click',e=>{if(e.target.id==='lb')$('#lb').classList.remove('on')});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#lb').classList.remove('on')});
+
+/* 가격 카드 */
+const P=[
+  {grp:'AVATAR',title:'아바타 제작 (추천)',rows:[['얼굴 성형 / 오리지널 의상 / 부스 바디 / 부스 헤어 + VRM · 브챗 세팅',1200000]]},
+  {grp:'ALL-IN-ONE',title:'올인원 제작',rows:[['오리지널 헤드 / 오리지널 의상 / 부스 바디 / 부스 헤어 · VRM·VSF·VRC (페이셜 리깅 포함)',2000000],['오리지널 헤드·헤어·의상·바디 · VRM·VSF·VRC (페이셜 리깅 포함)',3000000]]},
+  {grp:'OUTFIT',title:'의상 모델링',rows:[['간단 (상의 + 하의)',500000],['중간 (상의 + 하의 + 외투)',700000],['복잡 (드레스, 고유 의상 등)',1200000]]},
+  {grp:'PARTS',title:'신발 · 소품',rows:[['신발 (복잡도에 따라 추가금)',100000],['악세사리 (복잡도에 따라 추가금)',50000]]},
+  {grp:'GIMMICK',title:'기믹 제작',rows:[['단순·전용 에셋 장착',10000],['비전용 에셋 장착',30000,80000],['AI 오브젝트 · 온오프 토글',15000],['AI 오브젝트 · 동작 토글 (효과음·생성·해제 이펙트)',30000,80000],['단순 연출 · 에셋 변형 (에셋 변형·텍스처링 + 기능 구현)',50000,100000],['단순 연출 · 커스텀 제작 (단순 등장·마법탄 발사 등, 효과음 포함)',70000,150000],['대규모·정교한 연출 (에셋 변형 + 기능 + 커스텀 효과음·BGM)',100000,200000],['디테일 연출 · 풀 커스텀 (에셋 없이 디테일 표현)',150000,200000],['AI 브금 추가 토글 (AI 작곡 포함)',5000],['아바타 세팅비 (첫 의뢰 시 1회 · 구조 파악·프로젝트 세팅)',30000]],note:'상업 이용 추가금 없음 · 에셋비 별도'},
+  {grp:'AI VIDEO',title:'AI 영상 제작',rows:[['캐릭터 PV · 소개영상 15초',170000],['캐릭터 PV · 소개영상 30초',310000],['캐릭터 PV · 소개영상 60초',610000],['15초 × 3편 묶음',430000]],note:'기본 포함: 주연 1캐릭터 정본 확인 · 콘티 승인 · 기본 편집 · 수정 2회 · 1080p 납품'},
+];
+for(const p of P){const h=el('h3',{},p.title);if(p.best)h.append(el('span',{class:'best'},p.best));$('#prices').append(el('div',{class:'card price'},el('div',{class:'grp'},p.grp),h,el('ul',{},...p.rows.map(([t,v,m])=>el('li',{},el('span',{},t),el('span',{},m?won(v).replace('원','')+' ~ '+won(m):won(v)+(p.grp==='PARTS'?'~':''))))),...(p.note?[el('p',{class:'pnote'},p.note)]:[])))}
+
+/* 견적 계산 */
+const state={base:'none',video:'v0',qty:{}};
+for(const b of CONFIG.video){const r=el('input',{type:'radio',name:'video',value:b.id});if(b.id==='v0')r.checked=true;r.addEventListener('change',()=>{state.video=b.id;calc()});$('#vidOpts').append(el('label',{class:'opt'},r,el('span',{class:'t'},b.name),el('span',{class:'p'},b.price?won(b.price):'')))}
+for(const b of CONFIG.base){const r=el('input',{type:'radio',name:'base',value:b.id});if(b.id==='none')r.checked=true;r.addEventListener('change',()=>{state.base=b.id;calc()});$('#baseOpts').append(el('label',{class:'opt'},r,el('span',{class:'t'},b.name),el('span',{class:'p'},b.price?won(b.price):'')))}
+for(const [box,list] of [['#addOpts',CONFIG.add],['#gimOpts',CONFIG.gimmick]])for(const x of list){state.qty[x.id]=0;const out=el('output',{},'0');const set=d=>{state.qty[x.id]=Math.max(0,Math.min(x.max||9,state.qty[x.id]+d));out.textContent=state.qty[x.id];calc()};$(box).append(el('div',{class:'opt'},el('span',{class:'t'},x.name),el('span',{class:'p'},won(x.price)+(x.range?'~':'')),el('span',{class:'stepper'},el('button',{type:'button','aria-label':x.name+' 빼기',onclick:()=>set(-1)},'−'),out,el('button',{type:'button','aria-label':x.name+' 더하기',onclick:()=>set(1)},'+'))))}
+for(const v of CONFIG.envs){$('#envs').append(el('label',{},el('input',{type:'checkbox',value:v}),v))}
+function lines(){const L=[];const b=CONFIG.base.find(x=>x.id===state.base);if(b&&b.price)L.push([b.name.split(' — ')[0],1,b.price]);const v=CONFIG.video.find(x=>x.id===state.video);if(v&&v.price)L.push([v.name,1,v.price]);for(const x of [...CONFIG.add,...CONFIG.gimmick])if(state.qty[x.id])L.push([x.name.split(' (')[0]+(x.range?' (최소)':''),state.qty[x.id],x.price*state.qty[x.id]]);return L}
+function calc(){const L=lines();const ul=$('#sumList');ul.replaceChildren(...(L.length?L.map(([n,q,v])=>el('li',{},el('span',{},n+(q>1?' × '+q:'')),el('span',{},won(v)))):[el('li',{class:'empty'},'항목을 먼저 선택해 주세요.')]));$('#total').textContent=won(L.reduce((s,x)=>s+x[2],0));$('#copy').disabled=!($('#agree').checked&&L.length)}
+$('#agree').addEventListener('change',e=>{$('#formBody').classList.toggle('locked',!e.target.checked);calc()});
+$('#copy').addEventListener('click',async()=>{
+  const L=lines();const envs=[...document.querySelectorAll('#envs input:checked')].map(i=>i.value).join(', ')||'미정';
+  const txt=['[테라가타 커미션 문의]','■ 신청 항목',...L.map(([n,q,v])=>'- '+n+(q>1?' × '+q:'')+' : '+won(v)),'■ 예상 합계 : '+$('#total').textContent+' (복잡도·에셋비에 따라 변동)','■ 사용 환경 : '+envs,'■ 닉네임 / 방송 플랫폼 : '+($('#nick').value||'미정'),'■ 참고 이미지 · 캐릭터 설명 : '+($('#ref').value||''),'■ 원화 저작권 확인 : '+($('#rights').value||''),'■ 사용할 BOOTH 에셋 : '+($('#booth').value||'미정'),'■ 희망 완성일 : '+($('#date').value||'미정'),'■ 기타 요청사항 : '+($('#etc').value||''),'■ 안내·환불 정책 확인 : O'].join('\n');
+  try{await navigator.clipboard.writeText(txt);$('#toast').textContent='복사했어요. 아트머그 «작가에게 문의»에 붙여 넣어 주세요.'}
+  catch(e){const t=el('textarea',{});t.value=txt;document.body.append(t);t.select();const ok=document.execCommand('copy');t.remove();$('#toast').textContent=ok?'복사했어요. 아트머그 «작가에게 문의»에 붙여 넣어 주세요.':'복사가 막혔어요. 이 창에서 직접 선택해 복사해 주세요.'}
+});
+calc();
+</script>
+</body>
+</html>
