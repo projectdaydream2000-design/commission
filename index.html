@@ -86,10 +86,28 @@ h2{font-family:var(--f-head);font-weight:700;font-size:30px;text-align:center;ma
 .yt button span{position:absolute;left:10px;bottom:8px;background:rgba(46,39,28,.78);border-radius:999px;padding:2px 10px;font-size:13px}
 .yt button::after{content:"▶";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;background:rgba(122,92,40,.92);display:grid;place-items:center;font-size:20px;line-height:54px;text-align:center}
 .yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.lightbox{position:fixed;inset:0;background:rgba(30,25,18,.9);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
-.lightbox.on{display:flex}
-.lightbox img{max-height:88vh;border-radius:10px}
-.lightbox button{position:absolute;top:14px;right:16px;width:42px;height:42px;border-radius:50%;border:0;background:#FFFDF8;font-size:20px}
+/* 상세 창: iframe 안이라 position:fixed 대신 누른 카드 위치에 absolute 로 띄운다 */
+.dim{position:absolute;left:0;top:0;width:100%;background:rgba(30,25,18,.72);z-index:50}
+.detail{position:absolute;left:50%;transform:translateX(-50%);width:min(940px,calc(100% - 24px));background:var(--card);border-radius:var(--r);box-shadow:0 20px 60px rgba(0,0,0,.35);z-index:51;overflow:hidden}
+.detail .dmedia{position:relative;background:#1e1912;display:flex;align-items:center;justify-content:center;min-height:320px;max-height:640px}
+.detail .dmedia img{max-width:100%;max-height:640px;object-fit:contain}
+.detail .dmedia iframe,.detail .dmedia video{width:100%;aspect-ratio:16/9;border:0;display:block;background:#000}
+.detail .dmedia .play{position:relative;width:100%;aspect-ratio:16/9;border:0;background:#2E271C center/cover no-repeat;cursor:pointer}
+.detail .dmedia .play span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:rgba(122,92,40,.92);color:#FFFDF8;font-size:24px;line-height:64px;text-align:center}
+.detail .dnav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:1px solid var(--gold-line);background:rgba(255,253,248,.94);font-size:22px;color:var(--ink);z-index:2}
+.detail .dprev{left:10px}.detail .dnext{right:10px}
+.detail .dclose{position:absolute;top:10px;right:10px;width:42px;height:42px;border-radius:50%;border:0;background:#FFFDF8;font-size:20px;z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.detail .dbar{display:flex;justify-content:space-between;gap:10px;padding:10px 18px;font-size:13px;color:var(--muted);border-bottom:1px solid var(--gold-line)}
+.detail .dthumbs{display:flex;gap:6px;overflow-x:auto;padding:10px 18px}
+.detail .dthumbs button{flex:0 0 auto;width:72px;height:52px;border-radius:8px;border:2px solid transparent;background:#2E271C center/cover no-repeat;padding:0;position:relative}
+.detail .dthumbs button[aria-current="true"]{border-color:var(--gold-deep)}
+.detail .dthumbs button.v::after{content:"▶";position:absolute;inset:0;display:grid;place-items:center;color:#FFFDF8;font-size:14px;text-shadow:0 1px 3px #000}
+.detail .dbody{padding:6px 22px 22px;display:flex;flex-direction:column;gap:8px}
+.detail .dbody h3{font-family:var(--f-head);font-size:24px}
+.detail .dbody .did{font-size:14px;background:var(--soft);border-radius:10px;padding:8px 12px}
+.detail .dbody .dd p{margin-top:6px;font-size:15px}
+.work .ph img,.work h3{cursor:pointer}
+.work .open{align-self:flex-start;border:1px solid var(--gold-line);background:var(--soft);color:#5A4A30;border-radius:999px;padding:5px 14px;font-size:13px;margin-top:4px}
 
 /* 상품·가격 */
 .prices{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
@@ -346,7 +364,8 @@ footer{padding:36px 0 48px;text-align:center;color:var(--muted);font-size:13px;b
 
 <footer>© 테라가타 · 모든 이미지는 저작권이 있는 이미지입니다. 무단 도용 및 복제를 금합니다.</footer>
 
-<div class="lightbox" id="lb" role="dialog" aria-modal="true" aria-label="사진 크게 보기"><button aria-label="닫기" id="lbClose">✕</button><img id="lbImg" alt=""></div>
+<div class="dim" id="dim" hidden></div>
+<div class="detail" id="detail" role="dialog" aria-modal="true" aria-label="작업 자세히 보기" hidden></div>
 
 <script src="data.js"></script>
 <script>
@@ -403,7 +422,7 @@ let showAll=false,curCat='전체';
 const TH=m=>m.t==='img'?m.s:m.t==='yt'?'https://i.ytimg.com/vi/'+m.s+'/hqdefault.jpg':m.t==='gd'?'https://drive.google.com/thumbnail?id='+m.s+'&sz=w800':m.t==='mp4'?m.p:'';
 const SRC=m=>m.t==='yt'?'https://www.youtube-nocookie.com/embed/'+m.s+'?autoplay=1':m.t==='gd'?'https://drive.google.com/file/d/'+m.s+'/preview':'https://vod.sooplive.com/player/'+m.s+'/catch';
 function stage(w,m){
-  if(m.t==='img'){const im=el('img',{src:m.s,alt:w.title+(m.c?' · '+m.c:''),loading:'lazy'});im.addEventListener('click',()=>{$('#lbImg').src=m.s;$('#lbImg').alt=im.alt;$('#lb').classList.add('on');$('#lbClose').focus()});return im}
+  if(m.t==='img'){const im=el('img',{src:m.s,alt:w.title+(m.c?' · '+m.c:''),loading:'lazy'});if(w.__open)im.addEventListener('click',()=>w.__open(im));return im}
   if(m.t==='mp4')return el('video',{src:m.s,poster:m.p,controls:'',preload:'none',playsinline:''});
   const th=TH(m);const b=el('button',{class:'play','aria-label':(m.c||w.title)+' 영상 재생',style:th?'background-image:url('+th+')':''},el('span',{},'▶'));
   b.addEventListener('click',()=>b.replaceWith(el('iframe',{src:SRC(m),title:m.c||w.title,allow:'autoplay; encrypted-media; picture-in-picture; fullscreen',allowfullscreen:''})));return b;
@@ -413,7 +432,8 @@ function renderWorks(cat){
   const list=WORKS.filter(w=>cat==='전체'||w.cat===cat);
   $('#more').hidden=list.length<=6;$('#more').textContent=showAll?'접기':'작업물 더 보기 ('+list.length+')';$('#more').setAttribute('aria-expanded',String(showAll));
   for(const w of (showAll?list:list.slice(0,6))){
-    const M=w.media;let i=0;
+    const M=w.media;let i=0;let art;
+    w.__open=anchor=>openDetail(w,i,art);
     const box=el('div',{class:'ph'});const count=el('span',{class:'count'});const cap=el('div',{class:'cap'});
     const show=()=>{const m=M[i];box.replaceChildren(stage(w,m),count);if(M.length>1)box.append(ctl);count.textContent=(m.t==='img'?'':'영상 · ')+(i+1)+' / '+M.length;cap.textContent=m.c||''};
     const go=d=>{i=(i+d+M.length)%M.length;show()};
@@ -423,17 +443,44 @@ function renderWorks(cat){
     const body=el('div',{class:'body'},el('span',{class:'tag'},w.cat+(nv?' · 영상 '+nv:'')),el('h3',{},w.title));
     if(w.desc)body.append(el('p',{},w.desc));
     if(w.did)body.append(el('div',{class:'did'},'작업 범위 · '+w.did));
-    if(w.detail)body.append(el('details',{class:'more'},el('summary',{},'자세히 보기'),...w.detail.map(([n,t])=>el('p',{},el('b',{},n),t?' — '+t:''))));
+    if(w.detail)body.append(el('details',{class:'more'},el('summary',{},'인물별 설명'),...w.detail.map(([n,t])=>el('p',{},el('b',{},n),t?' — '+t:''))));
     if(w.links)body.append(el('div',{class:'links'},...w.links.map(([t,u])=>el('a',{href:u,target:'_blank',rel:'noopener'},t+' ↗'))));
-    g.append(el('article',{class:'card work'},box,cap,body));
+    body.append(el('button',{class:'open',type:'button',onclick:()=>openDetail(w,i,art)},'자세히 보기 · 크게 보기'));
+    body.querySelector('h3').addEventListener('click',()=>openDetail(w,i,art));
+    art=el('article',{class:'card work'},box,cap,body);g.append(art);
   }
 }
 for(const c of cats){$('#tabs').append(el('button',{class:'tab',role:'tab','aria-selected':String(c==='전체'),onclick:e=>{document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected','false'));e.currentTarget.setAttribute('aria-selected','true');renderWorks(c)}},c))}
 renderWorks('전체');
 $('#more').addEventListener('click',()=>{showAll=!showAll;renderWorks(curCat)});
-$('#lbClose').onclick=()=>$('#lb').classList.remove('on');
-$('#lb').addEventListener('click',e=>{if(e.target.id==='lb')$('#lb').classList.remove('on')});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#lb').classList.remove('on')});
+function detailStage(w,m){
+  if(m.t==='img')return el('img',{src:m.s,alt:w.title+(m.c?' · '+m.c:'')});
+  if(m.t==='mp4')return el('video',{src:m.s,poster:m.p,controls:'',preload:'metadata',playsinline:''});
+  const b=el('button',{class:'play','aria-label':(m.c||w.title)+' 영상 재생',style:TH(m)?'background-image:url('+TH(m)+')':''},el('span',{},'▶'));
+  b.addEventListener('click',()=>b.replaceWith(el('iframe',{src:SRC(m),title:m.c||w.title,allow:'autoplay; encrypted-media; picture-in-picture; fullscreen',allowfullscreen:''})));return b;
+}
+let lastFocus=null;
+function closeDetail(){$('#detail').hidden=true;$('#dim').hidden=true;$('#detail').replaceChildren();if(lastFocus)lastFocus.focus({preventScroll:true})}
+function openDetail(w,start,anchor){
+  lastFocus=document.activeElement;const M=w.media;let i=start||0;
+  const D=$('#detail');const media=el('div',{class:'dmedia'});const bar=el('div',{class:'dbar'});const thumbs=el('div',{class:'dthumbs'});
+  const tb=M.map((m,k)=>{const b=el('button',{type:'button','aria-label':(m.c||w.title)+' '+(k+1),class:m.t==='img'?'':'v',style:TH(m)?'background-image:url('+TH(m)+')':''});b.addEventListener('click',()=>{i=k;show()});return b});
+  thumbs.append(...tb);
+  const show=()=>{const m=M[i];media.replaceChildren(detailStage(w,m));if(M.length>1)media.append(el('button',{class:'dnav dprev','aria-label':'이전',onclick:()=>{i=(i-1+M.length)%M.length;show()}},'‹'),el('button',{class:'dnav dnext','aria-label':'다음',onclick:()=>{i=(i+1)%M.length;show()}},'›'));
+    bar.replaceChildren(el('span',{},m.c||w.title),el('span',{},(i+1)+' / '+M.length));tb.forEach((b,k)=>b.setAttribute('aria-current',String(k===i)))};
+  const body=el('div',{class:'dbody'},el('span',{class:'tag'},w.cat),el('h3',{},w.title));
+  if(w.desc)body.append(el('p',{},w.desc));
+  if(w.did)body.append(el('div',{class:'did'},'작업 범위 · '+w.did));
+  if(w.detail)body.append(el('div',{class:'dd'},...w.detail.map(([n,t])=>el('p',{},el('b',{},n),t?' — '+t:''))));
+  if(w.links)body.append(el('div',{class:'links'},...w.links.map(([t,u])=>el('a',{href:u,target:'_blank',rel:'noopener'},t+' ↗'))));
+  D.replaceChildren(el('button',{class:'dclose','aria-label':'닫기',onclick:closeDetail},'✕'),media,bar,...(M.length>1?[thumbs]:[]),body);show();
+  // iframe 안에서는 fixed 가 iframe 전체 높이 기준이라 화면 밖에 뜬다 → 누른 카드의 문서 위치에 띄운다
+  const top=Math.max(0,(anchor?anchor.getBoundingClientRect().top+window.scrollY:window.scrollY)-10);
+  D.style.top=top+'px';D.hidden=false;const dim=$('#dim');dim.style.height=document.documentElement.scrollHeight+'px';dim.hidden=false;
+  D.querySelector('.dclose').focus({preventScroll:true});
+}
+$('#dim').addEventListener('click',closeDetail);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#detail').hidden)closeDetail()});
 
 /* 가격 카드 */
 const P=[
