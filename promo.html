@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>아바타 풀세팅 프로모션</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F1E7; --card:#FFFDF8; --soft:#EFE6D4; --ink:#2E271C; --muted:#6B5B40;
+  --gold:#806129; --gold-deep:#7A5C28; --gold-line:#D9CBAE;
+  --navy:#171A26; --navy2:#262C44; --cream:#F6F1E7; --gold-lt:#F2D38A; --red:#B8302B;
+  --shadow:0 10px 30px rgba(46,39,28,.10); --r:18px;
+  --f-head:'Gowun Batang',serif; --f-body:'IBM Plex Sans KR',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:var(--gold)}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+section{padding:56px 0;border-top:1px solid var(--gold-line)}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.18em;color:var(--gold);text-align:center}
+h2{font-family:var(--f-head);font-size:30px;text-align:center;margin:6px 0 10px}
+.lead{text-align:center;color:var(--muted);font-size:15px;margin-bottom:30px}
+
+/* 히어로 */
+.hero{background:radial-gradient(circle at 25% 40%,#3A4262 0%,#1D2133 50%,#12141E 100%);color:var(--cream);padding:56px 0;border-top:0}
+.hero .grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
+.hero .thumb{border-radius:22px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.45)}
+.badge{display:inline-block;background:var(--red);color:#fff;font-weight:700;font-size:14px;letter-spacing:.08em;padding:5px 16px;border-radius:999px}
+.hero h1{font-family:var(--f-head);font-size:42px;line-height:1.25;margin:16px 0 12px}
+.hero h1 em{font-style:normal;color:var(--gold-lt)}
+.hero p{color:#D9CBAE}
+.hero .cta{display:inline-block;margin-top:24px;background:var(--gold-lt);color:#1D2133;font-weight:700;text-decoration:none;padding:12px 26px;border-radius:999px}
+.count{margin-top:14px;font-size:14px;color:#D9CBAE}
+
+/* 상품 카드 */
+.packs{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.pack{position:relative;background:var(--card);border:1px solid var(--gold-line);border-radius:var(--r);box-shadow:var(--shadow);padding:30px 26px 26px;display:flex;flex-direction:column}
+.pack.main{border:2px solid var(--gold-deep)}
+.pack .ribbon{position:absolute;top:-14px;left:24px;background:var(--gold-deep);color:var(--card);font-size:13px;font-weight:700;padding:3px 14px;border-radius:999px}
+.pack h3{font-family:var(--f-head);font-size:24px;line-height:1.35}
+.pack .desc{color:var(--muted);font-size:14px;margin-top:4px}
+.pack ul{list-style:none;margin:18px 0 20px;display:flex;flex-direction:column;gap:6px}
+.pack li{padding-left:24px;position:relative}
+.pack li:before{content:"◆";position:absolute;left:0;color:var(--gold);font-size:12px;top:3px}
+.pack li b{color:var(--gold-deep)}
+.pack .price{margin-top:auto;border-top:1px dashed var(--gold-line);padding-top:16px}
+.pack .was{color:var(--muted);text-decoration:line-through}
+.pack .now{font-family:var(--f-head);font-size:44px;line-height:1.1;color:var(--ink)}
+.pack .now small{font-family:var(--f-body);font-size:20px;font-weight:700;margin-left:4px}
+.pack .off{display:inline-block;background:var(--red);color:#fff;font-weight:700;font-size:15px;padding:3px 12px;border-radius:999px;margin-top:8px}
+.pack .off span{opacity:.9;font-weight:500}
+
+/* 대표작 */
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.gal img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:14px;background:#474747;border:1px solid var(--gold-line)}
+.vids{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.vid{background:var(--card);border:1px solid var(--gold-line);border-radius:14px;overflow:hidden}
+.vid iframe{width:100%;aspect-ratio:16/9;border:0;display:block;background:#1e1912}
+.vid p{font-size:14px;color:var(--muted);padding:8px 14px}
+.did{margin-top:18px;background:var(--soft);border-radius:14px;padding:16px 20px;font-size:15px}
+.did b{color:var(--gold-deep)}
+
+/* 안내 */
+.notes{background:var(--card);border:1px solid var(--gold-line);border-radius:var(--r);padding:22px 26px}
+.notes li{margin-left:18px;margin-bottom:4px}
+.back{text-align:center;margin-top:26px}
+.back a{display:inline-block;border:1px solid var(--gold-deep);color:var(--gold-deep);text-decoration:none;font-weight:600;padding:10px 24px;border-radius:999px}
+
+@media (max-width:760px){
+  .hero .grid,.packs,.vids{grid-template-columns:1fr}
+  .hero h1{font-size:32px}
+  .gal{grid-template-columns:1fr 1fr 1fr;gap:8px}
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="wrap grid">
+    <div class="thumb"><img src="img/promo-thumb-500.jpg" alt="아바타 풀세팅 프로모션 — 500,000원"></div>
+    <div>
+      <span class="badge">한정 프로모션</span>
+      <h1>얼굴 성형부터<br><em>대규모 기믹</em>까지<br>한 번에 세팅합니다</h1>
+      <p>주력 상품인 VRChat 아바타 풀세팅을 프로모션 가격으로 받습니다. 최대 <b style="color:#F2D38A">40만원</b>까지 할인됩니다.</p>
+      <a class="cta" href="#packs">프로모션 상품 보기</a>
+    </div>
+  </div>
+</section>
+
+<section id="packs">
+  <div class="wrap">
+    <div class="eyebrow">PROMOTION</div>
+    <h2>프로모션 상품</h2>
+    <p class="lead">두 상품 모두 브챗 대규모 기믹과 VRM, 브챗 세팅이 포함됩니다.</p>
+    <div class="packs">
+      <div class="pack main">
+        <span class="ribbon">주력 상품</span>
+        <h3>아바타 풀세팅</h3>
+        <p class="desc">부스 의상으로 빠르게 완성하는 구성</p>
+        <ul>
+          <li>얼굴 성형</li>
+          <li>부스 의상</li>
+          <li>부스 바디 · 부스 헤어</li>
+          <li><b>브챗 대규모 기믹</b> + VRM</li>
+          <li>브챗 세팅 포함</li>
+        </ul>
+        <div class="price">
+          <div class="was">정가 700,000원</div>
+          <div class="now">500,000<small>원</small></div>
+          <span class="off">20만원 할인 <span>· 약 29%</span></span>
+        </div>
+      </div>
+      <div class="pack">
+        <span class="ribbon" style="background:var(--navy2)">프리미엄</span>
+        <h3>아바타 풀세팅 · 오리지널 의상</h3>
+        <p class="desc">의상을 직접 제작하는 구성</p>
+        <ul>
+          <li>얼굴 성형</li>
+          <li><b>오리지널 의상</b></li>
+          <li>부스 바디 · 부스 헤어</li>
+          <li><b>브챗 대규모 기믹</b> + VRM</li>
+          <li>브챗 세팅 포함</li>
+        </ul>
+        <div class="price">
+          <div class="was">정가 1,200,000원</div>
+          <div class="now">800,000<small>원</small></div>
+          <span class="off">40만원 할인 <span>· 약 33%</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sample">
+  <div class="wrap">
+    <div class="eyebrow">SAMPLE</div>
+    <h2>대표작 · 보석영애 아바타</h2>
+    <p class="lead">부스 아바타 에셋 여러 개를 조합하여 만들었습니다.</p>
+    <div class="gal">
+      <img src="img/a_17906789300.jpg" alt="보석영애 아바타 1" loading="lazy">
+      <img src="img/a_17906789301.jpg" alt="보석영애 아바타 2" loading="lazy">
+      <img src="img/a_17906789302.jpg" alt="보석영애 아바타 3" loading="lazy">
+    </div>
+    <div class="vids">
+      <div class="vid"><iframe src="https://drive.google.com/file/d/1KglxvIsmK38X3z3EkPwIiGGn2wYpTnk3/preview" allow="autoplay" loading="lazy" title="보석 궤도 기믹"></iframe><p>기믹 · 7가지 색 보석이 몸 주위를 각자 다른 거리와 속도로 돕니다</p></div>
+      <div class="vid"><iframe src="https://drive.google.com/file/d/1Wb1B5a5oaeYzWTrXU8xRgv6aYCo3Jat3/preview" allow="autoplay" loading="lazy" title="양산 기믹"></iframe><p>기믹 · 양산이 0.12초 간격으로 순차적으로 펴집니다</p></div>
+    </div>
+    <div class="did"><b>작업 범위</b> · 에셋 조합, 헤드 작업, 의상, 텍스쳐링 수정, 모델링 수정, 악세사리 추가, 리깅 변경, 속바지 추가, 기믹 추가</div>
+  </div>
+</section>
+
+<section id="notice">
+  <div class="wrap">
+    <div class="eyebrow">NOTICE</div>
+    <h2>프로모션 안내</h2>
+    <div class="notes">
+      <ul>
+        <li>부스 바디·헤어·의상 등 외부 에셋 구매비는 제작비와 별도입니다.</li>
+        <li>에셋마다 이용 약관(방송·상업 이용, 개변, 재배포)이 다르므로 구매 전에 함께 확인해 주세요.</li>
+        <li>기믹의 규모와 복잡도에 따라 견적이 달라질 수 있습니다. 최종 금액은 문의 후 안내드립니다.</li>
+        <li>환불 정책은 상점 본 페이지의 안내를 따릅니다.</li>
+      </ul>
+    </div>
+    <div class="back"><a href="index.html">상점 본 페이지로 · 문의 양식</a></div>
+  </div>
+</section>
+
+</body>
+</html>
