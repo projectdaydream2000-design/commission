@@ -71,6 +71,39 @@ h2{font-family:var(--f-head);font-size:30px;text-align:center;margin:6px 0 10px}
 .back{text-align:center;margin-top:26px}
 .back a{display:inline-block;border:1px solid var(--gold-deep);color:var(--gold-deep);text-decoration:none;font-weight:600;padding:10px 24px;border-radius:999px}
 
+/* 대표작 쇼케이스 */
+.show{padding:64px 0}
+.show.dark{background:#1B1F30;color:#F6F1E7;border-top:0}
+.show.dark .eyebrow{color:#D9B870}
+.show.dark .lead{color:#D9CBAE}
+.show h2{font-size:36px}
+.show .pk{display:inline-block;margin-top:4px;font-size:14px;font-weight:700;padding:3px 14px;border-radius:999px;background:var(--gold-deep);color:var(--card)}
+.show .center{text-align:center}
+.feature{display:grid;grid-template-columns:1.1fr 1fr;gap:14px}
+.feature .big{grid-row:span 2}
+.shot{background:#474747;border-radius:16px;overflow:hidden;border:1px solid rgba(217,184,112,.35);display:flex;align-items:center;justify-content:center}
+.shot img{width:100%;height:100%;object-fit:contain}
+.feature .big{min-height:640px}
+.feature .sm{min-height:313px}
+.strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.strip .shot{aspect-ratio:1/1}
+.wide{margin-top:14px}
+.wide .shot{aspect-ratio:auto}
+.vids3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.vbox{background:var(--card);border:1px solid var(--gold-line);border-radius:14px;overflow:hidden;color:var(--ink)}
+.vbox video,.vbox iframe{width:100%;aspect-ratio:16/9;display:block;border:0;background:#1e1912}
+.vbox p{font-size:14px;color:var(--muted);padding:8px 14px}
+.show .did{margin-top:18px}
+.show.dark .did{background:rgba(255,253,248,.08);color:#F6F1E7}
+.show.dark .did b{color:#F2D38A}
+@media (max-width:760px){
+  .feature{grid-template-columns:1fr}
+  .feature .big{min-height:420px;grid-row:auto}
+  .feature .sm{min-height:260px}
+  .vids3{grid-template-columns:1fr}
+  .strip{gap:8px}
+}
+
 @media (max-width:760px){
   .hero .grid,.packs,.vids{grid-template-columns:1fr}
   .hero h1{font-size:32px}
@@ -87,8 +120,57 @@ h2{font-family:var(--f-head);font-size:30px;text-align:center;margin:6px 0 10px}
       <span class="badge">한정 프로모션</span>
       <h1>얼굴 성형부터<br><em>대규모 기믹</em>까지<br>한 번에 세팅합니다</h1>
       <p>주력 상품인 VRChat 아바타 풀세팅을 프로모션 가격으로 받습니다. 최대 <b style="color:#F2D38A">40만원</b>까지 할인됩니다.</p>
-      <a class="cta" href="#packs">프로모션 상품 보기</a>
+      <a class="cta" href="#gem">대표작 보기</a> <a class="cta" href="#packs" style="background:transparent;color:#F2D38A;border:1px solid #F2D38A;margin-left:8px">프로모션 상품</a>
     </div>
+  </div>
+</section>
+
+<section id="gem" class="show dark">
+  <div class="wrap">
+    <div class="center"><div class="eyebrow">SHOWCASE 01</div>
+    <h2>보석영애 아바타</h2>
+    <span class="pk">주력 상품 구성 · 부스 의상</span>
+    <p class="lead" style="margin-top:12px">부스 아바타 에셋 여러 개를 조합하여 만들었습니다.</p></div>
+    <div class="feature">
+      <div class="big"><a class="shot big" href="img/a_17906789301.jpg" target="_blank" rel="noopener"><img src="img/a_17906789301.jpg" alt="보석영애 아바타 전신" loading="lazy"></a></div>
+      <a class="shot sm" href="img/a_17906789300.jpg" target="_blank" rel="noopener"><img src="img/a_17906789300.jpg" alt="보석영애 아바타 얼굴" loading="lazy"></a>
+      <a class="shot sm" href="img/a_17906789302.jpg" target="_blank" rel="noopener"><img src="img/a_17906789302.jpg" alt="보석영애 아바타 전신 측면" loading="lazy"></a>
+    </div>
+    <div class="vids3" style="grid-template-columns:1fr 1fr">
+      <div class="vbox"><iframe src="https://drive.google.com/file/d/1KglxvIsmK38X3z3EkPwIiGGn2wYpTnk3/preview" allow="autoplay" loading="lazy" title="보석 궤도 기믹"></iframe><p>기믹 · 7가지 색 보석이 몸 주위를 각자 다른 거리와 속도로 돕니다</p></div>
+      <div class="vbox"><iframe src="https://drive.google.com/file/d/1Wb1B5a5oaeYzWTrXU8xRgv6aYCo3Jat3/preview" allow="autoplay" loading="lazy" title="양산 기믹"></iframe><p>기믹 · 양산이 0.12초 간격으로 순차적으로 펴집니다</p></div>
+    </div>
+    <div class="did"><b>작업 범위</b> · 에셋 조합, 헤드 작업, 의상, 텍스쳐링 수정, 모델링 수정, 악세사리 추가, 리깅 변경, 속바지 추가, 기믹 추가</div>
+  </div>
+</section>
+
+<section id="bishop" class="show">
+  <div class="wrap">
+    <div class="center"><div class="eyebrow">SHOWCASE 02</div>
+    <h2>비숍 아바타</h2>
+    <span class="pk" style="background:var(--navy2)">프리미엄 구성 · 오리지널 의상</span>
+    <p class="lead" style="margin-top:12px">기존 아바타의 얼굴을 성형하고 의상·지팡이를 가공해 아바타와 기믹을 구성했습니다. 페이셜 수정 및 오리지널 의상 제작이며, 바디는 부스 바디를 썼습니다.</p></div>
+    <div class="feature">
+      <div class="big"><a class="shot big" href="img/bishop-1.webp" target="_blank" rel="noopener"><img src="img/bishop-1.webp" alt="비숍 아바타 대표 이미지" loading="lazy"></a></div>
+      <a class="shot sm" href="img/bishop-2.webp" target="_blank" rel="noopener"><img src="img/bishop-2.webp" alt="비숍 아바타 얼굴" loading="lazy"></a>
+      <a class="shot sm" href="img/bishop-4.webp" target="_blank" rel="noopener"><img src="img/bishop-4.webp" alt="비숍 아바타 상반신" loading="lazy"></a>
+    </div>
+    <div class="strip">
+      <a class="shot" href="img/bishop-6.webp" target="_blank" rel="noopener"><img src="img/bishop-6.webp" alt="의상 모델링 와이어프레임" loading="lazy"></a>
+      <a class="shot" href="img/a_17906776951.jpg" target="_blank" rel="noopener"><img src="img/a_17906776951.jpg" alt="오리지널 의상" loading="lazy"></a>
+      <a class="shot" href="img/a_17906776953.jpg" target="_blank" rel="noopener"><img src="img/a_17906776953.jpg" alt="오리지널 의상" loading="lazy"></a>
+    </div>
+    <div class="strip" style="grid-template-columns:1fr 1fr">
+      <a class="shot" href="img/bishop-3.webp" target="_blank" rel="noopener" style="aspect-ratio:2/1"><img src="img/bishop-3.webp" alt="얼굴 성형 전후" loading="lazy"></a>
+      <a class="shot" href="img/bishop-5.webp" target="_blank" rel="noopener" style="aspect-ratio:2/1"><img src="img/bishop-5.webp" alt="얼굴 모델링 와이어프레임" loading="lazy"></a>
+    </div>
+    <div class="wide"><a class="shot" href="img/a_17906788623.jpg" target="_blank" rel="noopener" style="aspect-ratio:1180/295"><img src="img/a_17906788623.jpg" alt="얼굴 성형 각도별" loading="lazy"></a></div>
+    <div class="vids3">
+      <div class="vbox"><video src="vid/sh_gimmick.mp4" poster="vid/sh_gimmick.jpg" controls preload="none" playsinline></video><p>기믹 연출</p></div>
+      <div class="vbox"><video src="vid/sh_domain.mp4" poster="vid/sh_domain.jpg" controls preload="none" playsinline></video><p>영역전개 포함</p></div>
+      <div class="vbox"><video src="vid/sh_staff.mp4" poster="vid/sh_staff.jpg" controls preload="none" playsinline></video><p>지팡이 연출</p></div>
+    </div>
+    <div class="did"><b>작업 범위</b> · 의상·지팡이의 리깅·UV 언랩·텍스처 재작업, 얼굴 성형, 페이셜 수정, 오리지널 의상 제작, 영역전개·지팡이 연출</div>
   </div>
 </section>
 
@@ -136,23 +218,7 @@ h2{font-family:var(--f-head);font-size:30px;text-align:center;margin:6px 0 10px}
   </div>
 </section>
 
-<section id="sample">
-  <div class="wrap">
-    <div class="eyebrow">SAMPLE</div>
-    <h2>대표작 · 보석영애 아바타</h2>
-    <p class="lead">부스 아바타 에셋 여러 개를 조합하여 만들었습니다.</p>
-    <div class="gal">
-      <img src="img/a_17906789300.jpg" alt="보석영애 아바타 1" loading="lazy">
-      <img src="img/a_17906789301.jpg" alt="보석영애 아바타 2" loading="lazy">
-      <img src="img/a_17906789302.jpg" alt="보석영애 아바타 3" loading="lazy">
-    </div>
-    <div class="vids">
-      <div class="vid"><iframe src="https://drive.google.com/file/d/1KglxvIsmK38X3z3EkPwIiGGn2wYpTnk3/preview" allow="autoplay" loading="lazy" title="보석 궤도 기믹"></iframe><p>기믹 · 7가지 색 보석이 몸 주위를 각자 다른 거리와 속도로 돕니다</p></div>
-      <div class="vid"><iframe src="https://drive.google.com/file/d/1Wb1B5a5oaeYzWTrXU8xRgv6aYCo3Jat3/preview" allow="autoplay" loading="lazy" title="양산 기믹"></iframe><p>기믹 · 양산이 0.12초 간격으로 순차적으로 펴집니다</p></div>
-    </div>
-    <div class="did"><b>작업 범위</b> · 에셋 조합, 헤드 작업, 의상, 텍스쳐링 수정, 모델링 수정, 악세사리 추가, 리깅 변경, 속바지 추가, 기믹 추가</div>
-  </div>
-</section>
+
 
 <section id="notice">
   <div class="wrap">
